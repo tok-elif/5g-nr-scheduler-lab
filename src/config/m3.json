@@ -1,0 +1,1 @@
+{"qdfPf": {"beta": 2,"gamma": 0.5,"epsilonThroughputMbps": 1e-9,"epsilonGbrMbps": 1e-9,"epsilonTimeSeconds": 1e-9,"delta": 0.01},"scientificExperiment": {"defaultSeedCount": 5,"minimumSeedCount": 2,"maximumSeedCount": 50,"confidenceLevel": 0.95}}

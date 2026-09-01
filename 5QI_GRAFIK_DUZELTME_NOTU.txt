@@ -1,0 +1,29 @@
+5QI GRAFİK VE KART DÜZELTMESİ
+=============================
+
+Bu paket, 5g-nr-scheduler-v1.7.5-m3.5-UX-GRAPHICS-REFINEMENT tabanından hazırlanmıştır.
+
+Düzeltilen ana sorun:
+- M3 hızlı incelemede "5QI gecikme ve GBR özeti" eski, sınıfsız HTML kullandığı için değerler birbirine yapışıyordu.
+
+Yeni yapı:
+1. 5QI P50/P95/P99 gecikme grafiği + sınıfa özgü PDB sınırı
+2. Paket teslimi, GBR UE karşılama, ortalama GBR, toplam GBR servisi ve PDB uyumu grafiği
+3. Her 5QI için ayrı responsive bilimsel kart
+4. Non-GBR metriklerinde N/A semantiği korunur
+5. Plotly zoom, pan, hover, reset ve PNG dışa aktarma desteklenir
+6. Aynı bileşen M2 ve M3 hızlı incelemede kullanılır
+
+Çalıştırma:
+- npm.cmd install --prefer-offline --strict-ssl=false --no-audit --no-fund
+- npm.cmd run dev -- --host 127.0.0.1
+- Tarayıcı: http://127.0.0.1:5173
+
+Doğrulama:
+- Yeni QoS bileşeni odaklı TypeScript strict kontrolü: geçti
+- M3 entegrasyon odaklı TypeScript strict kontrolü: geçti
+- Yeni bileşen testi TypeScript kontrolü: geçti
+- Göreli import kontrolü: eksik yok
+- CSS ayrıştırma: hata yok
+- Tüm TS/TSX kaynaklarında sözdizimi: hata yok
+  (plotly-global.d.ts, transpileModule ile emit edilmeyen declaration dosyasıdır; odaklı tsc kontrolleri temizdir.)

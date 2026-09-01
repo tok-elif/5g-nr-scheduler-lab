@@ -1,0 +1,24 @@
+M3 5QI DIKEY GRAFIK GUNCELLEMESI
+================================
+
+Bu teslimde yalnız M3 hızlı inceleme ekranındaki 5QI gecikme sunumu değiştirildi.
+
+Yeni görünüm:
+- X ekseni: 5QI 1, 2, 6 ve 9 trafik sınıfları.
+- Her 5QI için dikey P50, P95 ve P99 sütunları.
+- Her sınıfın PDB hedefi kırmızı elmas işaretle gösterilir.
+- Sütun değerleri grafikte görünür; ayrıntılar hover kartında bulunur.
+- Grafiğin altında P99/PDB oranı ve hedef durumu için kısa özet şeridi vardır.
+- M2'nin mevcut 5QI gecikme görünümü değiştirilmedi.
+- M3 paket servisi, GBR grafikleri ve 5QI kartları korunmuştur.
+
+Yeni bileşen:
+- src/components/M3VerticalQosLatencyChart.tsx
+
+Entegrasyon:
+- src/components/M3Dashboard.tsx
+- src/components/QosPerformancePanel.tsx içinde showLatencyChart seçeneği
+
+Testler:
+- src/components/M3VerticalQosLatencyChart.test.tsx
+- QosPerformancePanel için M3 gecikme grafiğini gizleme testi

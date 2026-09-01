@@ -1,0 +1,10 @@
+5QI GRAFIK OKUNABILIRLIK DUZELTMESI
+===================================
+
+- Eski iki kalabalik grafik kaldirildi.
+- Gecikme yatay yuzdelik dagilim grafigine donusturuldu.
+- Paket teslimi ve PDB uyumu ayri grafikte tutuldu.
+- GBR metrikleri yalniz GBR siniflarini gosteren ucuncu grafige ayrildi.
+- Non-GBR degerleri sifir gibi gosterilmiyor.
+- Legend grafik altina tasindi; metin ve cizim alanlari ayrildi.
+- 5QI etiketleri kisaltildi fakat ayrintili ad hover'da korundu.

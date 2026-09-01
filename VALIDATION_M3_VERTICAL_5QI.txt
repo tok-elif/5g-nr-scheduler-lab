@@ -1,0 +1,25 @@
+M3 5QI vertical graph refinement validation
+Date: 2026-07-23
+
+Changes checked:
+- New M3-only vertical grouped P50/P95/P99 + PDB chart component.
+- M3Dashboard integration.
+- Shared QosPerformancePanel can hide its latency section in M3 without changing M2 defaults.
+- M3 vertical chart source test added.
+- Shared panel hide-latency source test added.
+
+Static validation completed in the artifact environment:
+- TypeScript/TSX syntax parse: PASSED (199 files, 0 syntax errors)
+- Relative source import resolution: PASSED (0 missing imports)
+- App.css brace validation: PASSED (672 opening / 672 closing)
+
+Not completed in the artifact environment:
+- npm dependency installation
+- Vitest execution
+- oxlint execution
+- production Vite build
+
+Run locally after dependency installation:
+  npm.cmd test
+  npm.cmd run lint
+  npm.cmd run build

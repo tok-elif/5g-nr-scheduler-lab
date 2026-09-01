@@ -1,0 +1,39 @@
+M3 / M4 ARAYÜZ YENİLEME NOTLARI
+================================
+
+M4
+--
+- Kaynak kullanımı: interaktif stacked horizontal Plotly chart
+- Kaynak kompozisyonu: minimum garanti / ortak havuz / redistribution chart
+- Slot trendi: allocated + used çizgileri, rangeslider, zoom ve pan
+- Latency: P50 / P95 / P99 grouped bar chart
+- Yeni: Slice throughput karşılaştırması
+- Yeni: Teslim / GBR / Jain / utilization karşılaştırması
+- Bütün Plotly grafiklerinde:
+  * mouse wheel zoom
+  * sürükleyerek pan
+  * çift tıkla reset/autosize
+  * hover tooltip
+  * modebar
+  * PNG export
+
+M3
+--
+- "Seçili algoritmanın kimliği" bölümü yeniden tasarlandı.
+- Ham formül metni yerine MathJax tabanlı LaTeX gösterimi kullanılır.
+- Literatür rolü Türkçe badge olarak gösterilir.
+- Formül sembolleri ve anlamları ayrı legend içinde verilir.
+- Parametreler, model uyarlamaları, geçerlilik sınırları ve bilimsel kaynak ayrıldı.
+- MathJax CDN erişilemezse LaTeX kaynak metni fallback olarak görünür.
+
+ÇALIŞTIRMA
+----------
+npm ci
+npm run dev -- --host 127.0.0.1
+
+DOĞRULAMA
+---------
+Bu ortamda TypeScript/TSX kaynaklarının sözdizimi parser ile kontrol edildi:
+0 parse hatası.
+Dependency kurulumu ağ süresi nedeniyle burada tamamlanamadığından tam Vitest/lint/build
+kontrolü kullanıcı ortamında çalıştırılmalıdır.

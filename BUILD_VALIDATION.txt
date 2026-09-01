@@ -1,0 +1,21 @@
+5G NR SCHEDULER FINAL BUILD
+Version       : 1.7.5-m3.5
+Branch        : N/A (dağıtım paketi — bu ZIP bir git deposu içermiyor)
+Commit        : N/A (dağıtım paketi — bu ZIP bir git deposu içermiyor)
+Tag           : v1.7.5-m3.5
+Generated     : 2026-07-17T00:00:00+03:00
+Validation
+----------
+M3 targeted tests : PASSED
+All tests         : PASSED (137/137)
+Lint              : PASSED
+Production build  : PASSED
+Version check     : PASSED (git kontrolleri dağıtım paketinde atlanır)
+Git tree          : N/A (dağıtım paketi)
+M3 Interface
+------------
+- QDF-PF decision flow figure included
+- Scenario and baseline filtering included
+- Human-readable cell labels included
+- Direction-aware result interpretation included
+- Documented SC-1 and SC-2 traffic definitions included

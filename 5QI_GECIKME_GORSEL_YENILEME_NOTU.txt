@@ -1,0 +1,17 @@
+5QI GECİKME GÖRSEL YENİLEME
+=============================
+
+Değişiklik kapsamı:
+- İlk bakıştaki kalabalık Plotly gecikme grafiği, dört ayrı 5QI mini paneline dönüştürüldü.
+- Her panelde P50, P95, P99 ve PDB değerleri sürekli görünür.
+- Renkli bant P50-P99 aralığını gösterir.
+- Kesikli çizgi PDB hedefini gösterir.
+- Hedef altı alan yeşil, hedef üstü alan kırmızı tonla ayrılır.
+- P99/PDB durumu kart başlığında açıkça gösterilir.
+- Ayrıntılı Plotly görünümü kaldırılmadı; zoom, pan ve PNG için kapalı bir ayrıntı alanına taşındı.
+- Paket servisi ve GBR grafiklerine dokunulmadı.
+
+Bilimsel not:
+Her mini panel kendi gecikme ölçeğini kullanır. Bu nedenle konumlar kartlar arasında mutlak
+ms karşılaştırması için değil, ilgili 5QI sınıfının PDB hedefi bağlamında okunmalıdır.
+Ham değerler kart üzerinde ms cinsinden görünür.

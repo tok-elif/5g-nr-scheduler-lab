@@ -1,0 +1,21 @@
+5G NR Scheduler — grafik ve deney arayüzü iyileştirme turu
+
+M1
+- RB hücrelerinin hover/focus kartına global slot, frame, subframe, scheduler, UE, RB adedi, achievable rate ve wideband SINR eklendi.
+- Throughput–fairness grafiklerinde scheduler başına farklı renk, sembol, boyut ve etiket konumu kullanıldı.
+- Beş hücre karşılaştırmasında scheduler bazlı renkler ve görünür %95 güven aralıkları kullanıldı.
+- Model bütünlük kontrol paneli arayüzden kaldırıldı; doğrulama testleri kaynakta korunur.
+
+M2
+- 5QI sonuçları bilimsel KPI kartları ve P50/P95/P99–PDB profiliyle yeniden düzenlendi.
+- Throughput–fairness ve metrik grafiklerinde scheduler renkleri ayrıştırıldı.
+
+M3
+- 10 UE yalnız varsayılan başlangıç değeriydi. Bilimsel deney alanı açık biçimde 1–100 UE kabul eder.
+- Çakışan noktalar ve yük cevapları farklı sembol, halo, çizgi tipi ve etiketlerle ayrıştırıldı.
+- Forest grafiğinde %95 GA alt/üst uçları ayrı hover hedefidir ve sınır değeri gösterilir.
+
+M4
+- Üç slice için ortak etkin UE üst sınırı 100'dür.
+- Toplam 100 kabul edilir, 101 ve üzeri reddedilir.
+- Her slice girişinin max değeri diğer etkin slice sayılarına göre dinamik hesaplanır.

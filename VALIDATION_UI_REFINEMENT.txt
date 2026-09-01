@@ -1,0 +1,14 @@
+5G NR Scheduler — UI/Graphics refinement validation
+Date: 2026-07-23
+
+Static validation completed in artifact environment:
+- TypeScript/TSX syntax parse: PASSED (195 files, 0 syntax errors)
+- CSS parse: PASSED (6 files, 0 parse errors)
+- Relative source import resolution: PASSED (0 missing imports)
+- M4 boundary test sources added: total 100 accepted, total 101 rejected
+- M1 RB hover static-render test source added: UE, scheduler, global slot, achievable rate and SINR
+
+Full npm/Vitest/lint/Vite build was not completed in the artifact environment because dependency installation could not finish. Run locally:
+  npm.cmd test
+  npm.cmd run lint
+  npm.cmd run build

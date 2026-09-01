@@ -1,0 +1,15 @@
+FRAME-SUBFRAME-SLOT YENİ TASARIM
+================================
+
+Bu güncelleme M1 ve M2 tarafından ortak kullanılan NrTimeOverview bileşenini
+profesyonel bir zaman matrisi görünümüne dönüştürür.
+
+Başlıca değişiklikler:
+- Frame başlığı, frame rozeti ve slot/subframe özetleri
+- 10 kolonlu masaüstü subframe matrisi
+- 5/2/1 kolon responsive kırılımlar
+- Her subframe için bağımsız mini kart
+- Slot numarası + UE etiketi hiyerarşisi
+- Daha belirgin boş/seçili/focus durumları
+- Pill biçiminde kompakt legend
+- M1 ve M2 için ortak görsel standardizasyon
