@@ -11,6 +11,7 @@ const m3Index = readFileSync('src/m3Schedulers/index.ts', 'utf8')
 const qdfSchedulerSource = readFileSync('src/m3Schedulers/qdfPf.scheduler.ts', 'utf8')
 const expectedVersion = packageJson.version
 const allowedBranches = [
+ 'main',
  'feature/m3-qos-scheduler',
  'feature/m3-scientific-algorithm-selection',
 ]
