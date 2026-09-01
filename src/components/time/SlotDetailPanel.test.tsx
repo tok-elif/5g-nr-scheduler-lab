@@ -17,7 +17,7 @@ describe('SlotDetailPanel', () => {
  })
  it('renders the frame/subframe/slot title', () => {
    // slot 3 at 30 kHz -> Frame 0 / Subframe 1 / Slot 1
-   expect(render(3)).toContain('Frame 0 / Subframe 1 / Slot 1')
+   expect(render(3)).toContain('Frame 0 / Subframe 1 / Slot 4 / Subframe içi 2')
  })
  it('is an accessible dialog labelled by its heading', () => {
    const html = render(0)

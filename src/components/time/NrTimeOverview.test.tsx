@@ -56,8 +56,8 @@ describe('NrTimeOverview', () => {
 
   it('3. shows subframe headers', () => {
     const html = render(null)
-    expect(html).toContain('Subframe 0')
-    expect(html).toContain('Subframe 1')
+    expect(html).toContain('<span>Subframe</span><strong>0</strong>')
+    expect(html).toContain('<span>Subframe</span><strong>1</strong>')
   })
 
   it('4. shows frame headers', () => {

@@ -23,8 +23,8 @@ describe('M1ResourceGrid', () => {
  it('exposes UE, scheduler, rate and wideband SINR for every RB', () => {
    const html = renderToStaticMarkup(<M1ResourceGrid cell={view.cells[0]} color='#2563eb' />)
    expect((html.match(/class="m1-rb-cell"/g) ?? [])).toHaveLength(15)
-   expect(html).toContain('UE wideband SINR: 7.25 dB')
-   expect(html).toContain('Achievable rate: 14.5 Mbps')
+   expect(html).toContain('UE wideband SINR: 7.3 dB')
+   expect(html).toContain('Achievable rate: 14.50 Mbps')
    expect(html).toContain('Scheduler: Proportional Fair')
    expect(html).toContain('Slot: 1')
  })
