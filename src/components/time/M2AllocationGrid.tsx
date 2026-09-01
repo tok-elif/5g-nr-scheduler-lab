@@ -4,8 +4,20 @@ import { rbDetailRows } from './allocationPresentation'
 import { FloatingInfoCard } from './FloatingInfoCard'
 import { positionFloatingCard, type FloatingCardPosition } from './floatingCardPosition'
 export interface M2AllocationGridProps { readonly cell:TimeAllocationCell; readonly selectedRbIndex:number|null; readonly onSelectRb:(rbIndex:number)=>void; readonly colorForUe:(ueId:number)=>string }
-function ownerForRb(cell:TimeAllocationCell,rbIndex:number):TimeAllocationItem|null { let cursor=0; for(const
-allocation of cell.allocations){cursor+=allocation.resourceBlocks;if(rbIndex<cursor)return allocation} return null }
+/**
+ * Bir RB'nin sahibini bulur. Frekans seçici modda tahsis gerçek RB indekslerini
+ * taşır ve doğrudan onlar kullanılır; wideband modda RB'ler ayırt edilemez
+ * olduğu için tahsisler sırayla yerleştirilir.
+ */
+function ownerForRb(cell:TimeAllocationCell,rbIndex:number):TimeAllocationItem|null {
+ for(const allocation of cell.allocations){
+   if(allocation.resourceBlockIndices?.includes(rbIndex))return allocation
+ }
+ if(cell.allocations.some((allocation)=>allocation.resourceBlockIndices))return null
+ let cursor=0
+ for(const allocation of cell.allocations){cursor+=allocation.resourceBlocks;if(rbIndex<cursor)return allocation}
+ return null
+}
 export function M2AllocationGrid({cell,selectedRbIndex,onSelectRb,colorForUe}:M2AllocationGridProps){
  const [hoveredRbIndex,setHoveredRbIndex]=useState<number|null>(null)
  const [tooltipPosition,setTooltipPosition]=useState<FloatingCardPosition|null>(null)
@@ -15,8 +27,8 @@ export function M2AllocationGrid({cell,selectedRbIndex,onSelectRb,colorForUe}:M2
  const show=(target:HTMLElement,index:number)=>{setHoveredRbIndex(index);setTooltipPosition( positionFloatingCard(target,330))}
  const hide=()=>{setHoveredRbIndex(null);setTooltipPosition(null)}
  return <section className="m2-rb-analysis" aria-label="RB allocation analizi">
-   <FloatingInfoCard id="m2-rb-tooltip" position={tooltipPosition} title={hoveredRbIndex===null?'':`RB${hoveredRbIndex+1}`}><dl>{hoveredRows.map((row)=><div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl></FloatingInfoCard>
-   <div className="rb-grid m2-rb-grid" style={{gridTemplateColumns:`repeat(${Math.min(cell.totalRb,26)}, 1fr)`}}> {Array.from({length:cell.totalRb},(_,rbIndex)=>{const allocation=ownerForRb(cell,rbIndex);return <div className="m2-rb-cell" key={rbIndex}><button type="button" className={`${allocation?'owned':''}${selectedRbIndex===rbIndex?'selected':''}`} style={allocation?{'--rb-color':colorForUe(allocation.ueId)} as CSSProperties:undefined} aria-pressed= {selectedRbIndex===rbIndex} aria-describedby="m2-rb-tooltip" onMouseEnter={(event)=>show( event.currentTarget,rbIndex)} onMouseLeave={hide} onFocus={(event)=>show(event.currentTarget,rbIndex)} onBlur= {hide} onClick={()=>onSelectRb(rbIndex)}>{cell.totalRb<=26||(rbIndex+1)%10===0?rbIndex+1:''}</button></div>})} </div>
+   <FloatingInfoCard id="m2-rb-tooltip" position={tooltipPosition} title={hoveredRbIndex===null?'':`RB ${hoveredRbIndex+1}`}><dl>{hoveredRows.map((row)=><div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl></FloatingInfoCard>
+   <div className="rb-grid m2-rb-grid" style={{gridTemplateColumns:`repeat(${Math.min(cell.totalRb,26)}, 1fr)`}}> {Array.from({length:cell.totalRb},(_,rbIndex)=>{const allocation=ownerForRb(cell,rbIndex);return <div className="m2-rb-cell" key={rbIndex}><button type="button" className={`${allocation?'owned':''}${selectedRbIndex===rbIndex?' selected':''}`} style={allocation?{'--rb-color':colorForUe(allocation.ueId)} as CSSProperties:undefined} aria-pressed= {selectedRbIndex===rbIndex} aria-describedby="m2-rb-tooltip" onMouseEnter={(event)=>show( event.currentTarget,rbIndex)} onMouseLeave={hide} onFocus={(event)=>show(event.currentTarget,rbIndex)} onBlur= {hide} onClick={()=>onSelectRb(rbIndex)}>{cell.totalRb<=26||(rbIndex+1)%10===0?rbIndex+1:''}</button></div>})} </div>
    {selectedRbIndex!==null&&<div className="m2-rb-selection" aria-live="polite"><header><span>Kalıcı RB seçimi</span><strong>RB {selectedRbIndex+1}</strong></header>{selectedAllocation?<dl>{rbDetailRows(cell, selectedAllocation,selectedRbIndex).map((row)=><div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd> </div>)}</dl>:<p>Bu RB boş.</p>}</div>}
  </section>
 }

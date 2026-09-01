@@ -16,6 +16,8 @@ export interface TimeAllocationItem {
  readonly ueIndex: number | null
  readonly ueId: number
  readonly resourceBlocks: number
+ /** Gerçek RB indeksleri; yalnız frekans seçici modda doludur. */
+ readonly resourceBlockIndices?: readonly number[]
  readonly fiveQi: number | null
  readonly achievableRateMbps: number | null
  /** UE-level wideband SINR; this is never a fabricated per-RB measurement. */
@@ -149,7 +151,11 @@ export function buildM1TimeAllocationView(input: {
 }
 interface M2SlotTraceEntry {
  readonly slotIndex: number
- readonly allocations: readonly { readonly ueIndex: number; readonly resourceBlocks: number }[]
+ readonly allocations: readonly {
+   readonly ueIndex: number
+   readonly resourceBlocks: number
+   readonly resourceBlockIndices?: readonly number[]
+ }[]
 }
 interface M2UeLike {
  readonly ueId: number
@@ -203,6 +209,7 @@ export function buildM2TimeAllocationView(input: {
        ueIndex: allocation.ueIndex,
        ueId: ue.ueId,
        resourceBlocks: allocation.resourceBlocks,
+       ...(allocation.resourceBlockIndices ? { resourceBlockIndices: allocation.resourceBlockIndices } : {}),
        fiveQi: ue.fiveQi,
        achievableRateMbps: ue.achievableRateMbps,
        widebandSinrDb: ue.sinrDb ?? null,

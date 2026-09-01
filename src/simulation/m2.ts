@@ -4,6 +4,7 @@ import { getQosProfile } from '../config/qos'
 import { calculateJainFairness } from '../metrics/fairness'
 import { latencyPercentileEstimates, maximumFinite } from '../metrics/percentiles'
 import { getM2Scheduler, M2_SCHEDULERS } from '../m2Schedulers'
+import { buildPerRbRateTable, FREQUENCY_SELECTIVE_DEFAULTS } from './frequencySelective'
 import { clamp, createSeededRandom, samplePoisson } from './random'
 import type { ResourceAllocation, UeResult, CellConfig } from './types'
 import type {
@@ -117,6 +118,7 @@ function validateAllocations(
  if (!Array.isArray(allocations)) throw new Error(`${schedulerLabel} tahsis listesi döndürmelidir.`)
  let allocatedResourceBlocks = 0
  const allocatedUes = new Set<number>()
+ const allocatedRbIndices = new Set<number>()
  for (const allocation of allocations) {
    if (!Number.isInteger(allocation.ueIndex)
      || allocation.ueIndex < 0
@@ -131,6 +133,20 @@ function validateAllocations(
    }
    if (queueStates[allocation.ueIndex].queuedMbits <= EPSILON) {
      throw new Error(`${schedulerLabel} boş kuyruğa RB tahsis etti.`)
+   }
+   if (allocation.resourceBlockIndices) {
+     if (allocation.resourceBlockIndices.length !== allocation.resourceBlocks) {
+       throw new Error(`${schedulerLabel} RB indeks sayısı tahsis edilen RB sayısıyla uyuşmuyor.`)
+     }
+     for (const rbIndex of allocation.resourceBlockIndices) {
+       if (!Number.isInteger(rbIndex) || rbIndex < 0 || rbIndex >= resourceBlocks) {
+         throw new Error(`${schedulerLabel} hücre dışında bir RB indeksi döndürdü.`)
+       }
+       if (allocatedRbIndices.has(rbIndex)) {
+         throw new Error(`${schedulerLabel} aynı RB'yi birden fazla UE'ye tahsis etti.`)
+       }
+       allocatedRbIndices.add(rbIndex)
+     }
    }
    allocatedUes.add(allocation.ueIndex)
    allocatedResourceBlocks += allocation.resourceBlocks
@@ -161,6 +177,20 @@ export function runM2(
    throw new Error('Efektif M2 trafik seed değeri güvenli bir tam sayı olmalıdır.')
  }
  const random = createSeededRandom(effectiveTrafficSeed)
+ const frequencySelective = options.frequencySelective ?? FREQUENCY_SELECTIVE_DEFAULTS
+ // Kanal statiktir; frekans profili koşu başında bir kez kurulur.
+ const perRbRateMbps = frequencySelective.enabled
+   ? buildPerRbRateTable({
+     cell,
+     ues,
+     config: frequencySelective,
+     baseSeed,
+     layers: simulationConfig.m0.layers,
+     overheadFraction: simulationConfig.m0.overheadFraction,
+     minSinrDb: simulationConfig.m0.minSinrDb,
+     maxSinrDb: simulationConfig.m0.maxSinrDb,
+   })
+   : undefined
  const slotDurationSeconds = cell.slotDurationMs / 1_000
  const runtimes: UeRuntime[] = ues.map(() => ({
    queue: [],
@@ -217,6 +247,7 @@ export function runM2(
      slotDurationSeconds,
      resourceBlocks: cell.resourceBlocks,
      queues: queueStates,
+     perRbRateMbps,
    })
    validateAllocations(allocations, queueStates, cell.resourceBlocks, scheduler.label)
    if (slotTrace.length < (config.traceSlotLimit ?? simulationConfig.model.defaultM2TraceSlotLimit)) {
@@ -225,8 +256,10 @@ export function runM2(
    const servedMbits = Array(ues.length).fill(0) as number[]
    for (const allocation of allocations) {
      const index = allocation.ueIndex
-     let capacityMbits = ues[index].achievableRateMbps
-       * (allocation.resourceBlocks / cell.resourceBlocks)
+     const rbIndices = allocation.resourceBlockIndices
+     let capacityMbits = (rbIndices && perRbRateMbps
+       ? rbIndices.reduce((sum, rbIndex) => sum + perRbRateMbps[index][rbIndex], 0)
+       : ues[index].achievableRateMbps * (allocation.resourceBlocks / cell.resourceBlocks))
        * slotDurationSeconds
      while (capacityMbits > EPSILON && runtimes[index].queue.length > 0) {
        const packet = runtimes[index].queue[0]

@@ -47,6 +47,12 @@ export type SchedulerKind = string
 export interface ResourceAllocation {
  ueIndex: number
  resourceBlocks: number
+ /**
+  * Tahsis edilen RB indeksleri. Yalnız frekans seçici (RB başına) scheduling
+  * açıkken doldurulur; wideband modda RB'ler ayırt edilemez olduğu için
+  * indeks bilgisi üretilmez ve bu alan tanımsız kalır.
+  */
+ resourceBlockIndices?: readonly number[]
 }
 export interface SchedulerRunContext {
  ues: readonly UeResult[]

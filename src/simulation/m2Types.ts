@@ -34,6 +34,8 @@ export interface M2Config {
 export interface M2RunOptions {
  readonly trafficClassByUeIndex?: readonly M2TrafficClassConfig[]
  readonly observationSink?: import('./m2Observation').M2ObservationSink
+ /** Verilmezse `config/simulation.json > frequencySelective` kullanılır. */
+ readonly frequencySelective?: import('./frequencySelective').FrequencySelectiveConfig
 }
 export interface M2QueueState {
  ueIndex: number
@@ -49,6 +51,11 @@ export interface M2SchedulerSlotContext {
  slotDurationSeconds: number
  resourceBlocks: number
  queues: readonly M2QueueState[]
+ /**
+  * `[ueIndex][rbIndex] -> Mbps`. Yalnız frekans seçici model açıkken verilir.
+  * Varsa scheduler kararı RB başına alınır, yoksa wideband davranış korunur.
+  */
+ perRbRateMbps?: readonly (readonly number[])[]
 }
 export interface M2SchedulerSession {
  selectAllocations(context: M2SchedulerSlotContext): readonly ResourceAllocation[]
