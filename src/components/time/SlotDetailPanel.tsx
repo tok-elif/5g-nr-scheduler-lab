@@ -18,6 +18,6 @@ export function SlotDetailPanel({ cell, onClose }: SlotDetailPanelProps) {
    <div className="slot-detail-head"><div><span>Seçili slot analizi</span><h3 id="slot-detail-title" ref={headingRef} tabIndex={-1}>{formatNrTimeLabel(cell.time)}</h3></div><button type="button" className="slot-detail-close"
 onClick={onClose} aria-label="Ayrıntı panelini kapat">×</button></div>
    <dl className="slot-detail-metrics">{cell.tooltipRows.map((row) => <div className="slot-detail-row" key= {row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl>
-   {cell.kind === 'm2' && cell.allocations.length > 0 && <section className="slot-allocation-analysis" aria-label="Slotallocation listesi"><h4>Allocation listesi</h4><div>{cell.allocations.map((allocation) => <article key= {allocation.ueIndex ?? allocation.ueId}><dl>{allocationDetailRows(allocation).map((row) => <div key={row.label}><dt> {row.label}</dt><dd>{row.value}</dd></div>)}</dl></article>)}</div></section>}
+   {cell.kind === 'm2' && cell.allocations.length > 0 && <section className="slot-allocation-analysis" aria-label="Slot allocation listesi"><h4>Allocation listesi</h4><div>{cell.allocations.map((allocation) => <article key= {allocation.ueIndex ?? allocation.ueId}><dl>{allocationDetailRows(allocation).map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl></article>)}</div></section>}
  </aside>
 }

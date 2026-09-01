@@ -181,7 +181,7 @@ APPLICATION_METADATA.version} · {experimentId}</code></div>
        onExportM0Matrix={() => downloadText(createM0CellMatrixCsv(m0CellMatrix), 'm0-all-cells-ue-rates.csv', 'text/csv')}
        onExportM1={() => activeM1 ? downloadText(createM1Csv(activeM1), `m1-${activeM1.scheduler}.csv`, 'text/csv') : window.alert('M1 hesabının tamamlanmasını bekleyin.')}
        onExportM2={() => activeM2 ? downloadText(createM2Csv(activeM2), `m2-${activeM2.scheduler}.csv`, 'text/csv') : window.alert('M2 hesabının tamamlanmasını bekleyin.')}
-       onExportM2Json={() => activeM2 ? downloadText(JSON.stringify({ application: APPLICATION_METADATA, results: m2Results }, null, 2), 'm2-qos-experiment.json', 'application/json') : window.alert('M2 hesabınıntamamlanmasını bekleyin.')}
+       onExportM2Json={() => activeM2 ? downloadText(JSON.stringify({ application: APPLICATION_METADATA, results: m2Results }, null, 2), 'm2-qos-experiment.json', 'application/json') : window.alert('M2 hesabınızın tamamlanmasını bekleyin.')}
        onExportM3={() => activeM3 ? downloadText(createM3ResultCsv(activeM3), `m3-${activeM3.scheduler}.csv`, 'text/csv;charset=utf-8') : window.alert('M3 hesabının tamamlanmasını bekleyin.')}
        onExportM3Json={() => activeM3 ? downloadText(createM3ComparisonJson({ cell, config: m2Config, baseSeed: scenario.seed, results: m3Results }), 'm3-scheduler-quick-comparison.json', 'application/json;charset=utf-8') : window.alert('M3 hesabının tamamlanmasını bekleyin.')}
        onExportBatch={() => batch ? downloadText(createBatchCsv(batch), 'm1-multi-seed-summary.csv', 'text/csv') : window.alert('Çoklu-seed hesabının tamamlanmasını bekleyin.')}
@@ -249,9 +249,9 @@ function ControlPanel(props: ControlProps) {
      <details className="advanced-settings"><summary>Gelişmiş kanal ayarları</summary><div className="field-grid"><Field label="Seed"><input type="number" value={props.scenario.seed} onChange={(e) => props.onScenarioChange('seed', e.target.value)} /></Field><Field label="Standart sapma"><input type="number" min="0" step="0.5" value={props.scenario.stdDevSinrDb} onChange={(e) => props.onScenarioChange('stdDevSinrDb', e.target.value)} /></Field></div><div className="field-grid"><Field label="Minimum SINR"><input type="number" value={props.scenario.minSinrDb} onChange={(e) => props.onScenarioChange('minSinrDb', e.target.value)} /></Field><Field label="Maksimum SINR"><input type="number" value={props.scenario.maxSinrDb} onChange={(e) => props.onScenarioChange('maxSinrDb', e.target.value)} /></Field></div></details>
    </ControlSection>
    {props.moduleView === 'm1' && <ControlSection title="Simülasyon"><Field label="Toplam slot sayısı"><input type="number" min="1" max="100000" value={props.m1Config.slotCount} onChange={(e) => props.onM1Change('slotCount', e.target.value)} /></Field><details className="advanced-settings"><summary>İleri deney ayarları</summary><Field label="PF ortalama penceresi"><input type="number" min="1" max="10000" value= {props.m1Config.pfWindowSlots} onChange={(e) => props.onM1Change('pfWindowSlots', e.target.value)} /></Field> <Field label="Çoklu deney seed sayısı"><input type="number" min="2" max="100" value={props.seedCount}
-onChange={(e) => props.onSeedCountChange(e.target.value)} /></Field></details><p className={`workload-note${workloadExceeded ? 'exceeded' : ''}`}>Deney yükü: {workUnits.toLocaleString('tr-TR')} UE-slot
+onChange={(e) => props.onSeedCountChange(e.target.value)} /></Field></details><p className={`workload-note${workloadExceeded ? ' exceeded' : ''}`}>Deney yükü: {workUnits.toLocaleString('tr-TR')} UE-slot
 birimi{workloadExceeded ? ' · güvenli sınırı aşıyor' : ''}</p><p className="assumption">M1’de her slotta bütün RB’ler yalnızca bir UE’ye verilir.</p></ControlSection>}
-   {(props.moduleView === 'm2' || props.moduleView === 'm3') && <ControlSection title={props.moduleView === 'm3' ? 'M3 QoS karşılaştırma' : 'QoS + trafik'}><Field label='Toplam slot sayısı'><input type='number' min='1' max='100000' value={props.m2Config.slotCount} onChange={(e) => props.onM2Change('slotCount', e.target.value)} /></Field> <details className='advanced-settings'><summary>{props.moduleView === 'm3' ? 'İleri M3 hızlı-koşu ayarları' : 'İleriM2 ayarları'}</summary><Field label='PF ortalama penceresi'><input type='number' min='1' max='10000' value= {props.m2Config.pfWindowSlots} onChange={(e) => props.onM2Change('pfWindowSlots', e.target.value)} /></Field> <p>5QI ve trafik ayarları config dosyalarından; deney seedleri ve normalize yükler
+   {(props.moduleView === 'm2' || props.moduleView === 'm3') && <ControlSection title={props.moduleView === 'm3' ? 'M3 QoS karşılaştırma' : 'QoS + trafik'}><Field label='Toplam slot sayısı'><input type='number' min='1' max='100000' value={props.m2Config.slotCount} onChange={(e) => props.onM2Change('slotCount', e.target.value)} /></Field> <details className='advanced-settings'><summary>{props.moduleView === 'm3' ? 'İleri M3 hızlı-koşu ayarları' : 'İleri M2 ayarları'}</summary><Field label='PF ortalama penceresi'><input type='number' min='1' max='10000' value= {props.m2Config.pfWindowSlots} onChange={(e) => props.onM2Change('pfWindowSlots', e.target.value)} /></Field> <p>5QI ve trafik ayarları config dosyalarından; deney seedleri ve normalize yükler
 <code>configs/M3_EXPERIMENT_PROTOCOL.json</code> dosyasından okunur.</p></details><p
 className='assumption'>Poisson paket gelişleri · FIFO kuyruklar · greedy RB dolumu · aynı trafik seed’i.</p> </ControlSection>}
    <button className="run-button" onClick={props.onRandomize}><span>Yeni popülasyon üret</span><b>↻</b> </button>
@@ -271,18 +271,18 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function M0Dashboard({ result, cellMatrix }: { result: M0Result; cellMatrix: readonly M0Result[] }) {
  const representative = [...result.ues].sort((a, b) => a.sinrDb - b.sinrDb)[Math.floor(result.ues.length / 2)]
  return <>
-   <PageTitle eyebrow="M0 · SİMÜLASYON ÇATISI" title="Link adaptation görünümü" description="UE başına statikwideband SINR, CQI/MCS seçimi ve tam-bant ulaşılabilir hız." seed={result.scenario.seed} />
+   <PageTitle eyebrow="M0 · SİMÜLASYON ÇATISI" title="Link adaptation görünümü" description="UE başına statik wideband SINR, CQI/MCS seçimi ve tam-bant ulaşılabilir hız." seed={result.scenario.seed} />
    <div className="kpi-row">
-     <Kpi label="Hücre profili" value={`${result.cell.bandwidthMHz} MHz`} note={`${result.cell.resourceBlocks} RB ·${result.cell.scsKHz} kHz`} />
-     <Kpi label="Ortalama SINR" value={`${number.format(result.averageSinrDb)} dB`} note={`${result.ues.length} UEpopülasyonu`} />
-     <Kpi label="Ort. ulaşılabilir hız" value={`${number.format(result.averageUeRateMbps)} Mbps`} note="UE başına,tam bant" />
-     <Kpi label="Örneklenmiş tam-bant üst sınırı" value={`${number.format(result.sampledFullBandUpperBoundMbps)}Mbps`} note="Popülasyondaki en iyi UE" accent />
+     <Kpi label="Hücre profili" value={`${result.cell.bandwidthMHz} MHz`} note={`${result.cell.resourceBlocks} RB · ${result.cell.scsKHz} kHz`} />
+     <Kpi label="Ortalama SINR" value={`${number.format(result.averageSinrDb)} dB`} note={`${result.ues.length} UE popülasyonu`} />
+     <Kpi label="Ort. ulaşılabilir hız" value={`${number.format(result.averageUeRateMbps)} Mbps`} note="UE başına, tam bant" />
+     <Kpi label="Örneklenmiş tam-bant üst sınırı" value={`${number.format(result.sampledFullBandUpperBoundMbps)} Mbps`} note="Popülasyondaki en iyi UE" accent />
    </div>
    <div className="panel-grid m0-grid">
      <Panel title="SINR → ulaşılabilir hız" subtitle="Her nokta bir UE’yi temsil eder" className="wide-panel">< SinrRateChart ues={result.ues} /></Panel>
      <Panel title="Link adaptation zinciri" subtitle={`Temsilî UE ${representative.id}`}><LinkPipeline ue={representative} /></Panel>
      <Panel title="Popülasyon özeti" subtitle="CQI dağılımı"><CqiDistribution ues={result.ues} /></Panel>
-     <Panel title="Fiziksel kaynak görünümü" subtitle={`${result.cell.resourceBlocks} RB · ${result.cell.bandwidthMHz}MHz kanal`} className="wide-panel"><ResourceGrid count={result.cell.resourceBlocks} /><div
+     <Panel title="Fiziksel kaynak görünümü" subtitle={`${result.cell.resourceBlocks} RB · ${result.cell.bandwidthMHz} MHz kanal`} className="wide-panel"><ResourceGrid count={result.cell.resourceBlocks} /><div
 className="resource-caption"><span>RB 1</span><span>Scheduler yok: kaynak bütünüyle erişilebilir</span> <span>RB {result.cell.resourceBlocks}</span></div></Panel>
    </div>
    <div className="model-note"><strong>Model kaynağı:</strong> {LINK_ADAPTATION_METADATA.specification}, {LINK_ADAPTATION_METADATA.cqiTable} ve {LINK_ADAPTATION_METADATA.mcsTable}; CQI 1 için
@@ -314,10 +314,10 @@ function M1Dashboard({ cell, results, active, batch, cellMatrix, selected, onSel
    ueColors: new Map(active.ueResults.map((ue) => [ue.ueId, ueColor(ue.ueId)])),
  }), [active, cell])
  return <>
-   <PageTitle eyebrow="M1 · FULL-BUFFER" title="Scheduler karşılaştırması" description={`Aynı kanalpopülasyonunda throughput, adalet ve kaynak tahsisi · worker ${number.format(elapsedMilliseconds)} ms`} seed= {undefined} />
-   <div className="algorithm-row">{results.map((item) => <button key={item.scheduler} className={`algorithm-card${selected === item.scheduler ? 'active' : ''}`} onClick={() => onSelect(item.scheduler)}><div><i style={{ background: schedulerColor(item.scheduler) }} /><span>{item.schedulerLabel}</span></div><strong>{number.format(item.cellThroughputMbps)} <small>Mbps</small></strong><footer><span>Jain</span><b>{item.jainFairness === null ? 'N/A' : number.format(item.jainFairness)}</b><div className="fairness-meter"><i style={{ width: `${(item.jainFairness?? 0) * 100}%` }} /></div></footer></button>)}</div>
+   <PageTitle eyebrow="M1 · FULL-BUFFER" title="Scheduler karşılaştırması" description={`Aynı kanal popülasyonunda throughput, adalet ve kaynak tahsisi · worker ${number.format(elapsedMilliseconds)} ms`} seed= {undefined} />
+   <div className="algorithm-row">{results.map((item) => <button key={item.scheduler} className={`algorithm-card${selected === item.scheduler ? ' active' : ''}`} onClick={() => onSelect(item.scheduler)}><div><i style={{ background: schedulerColor(item.scheduler) }} /><span>{item.schedulerLabel}</span></div><strong>{number.format(item.cellThroughputMbps)} <small>Mbps</small></strong><footer><span>Jain</span><b>{item.jainFairness === null ? 'N/A' : number.format(item.jainFairness)}</b><div className="fairness-meter"><i style={{ width: `${(item.jainFairness?? 0) * 100}%` }} /></div></footer></button>)}</div>
    <div className="panel-grid m1-grid">
-     <Panel title="Frame · Subframe · Slot genel görünümü" subtitle={`${active.schedulerLabel} ·${active.slotTrace.length} slot · yatay kaydırma yok`} className="allocation-panel">
+     <Panel title="Frame · Subframe · Slot genel görünümü" subtitle={`${active.schedulerLabel} · ${active.slotTrace.length} slot · yatay kaydırma yok`} className="allocation-panel">
        <div className={`time-detail-layout${selection.detailOpen ? '' : ' detail-closed'}`}><div className="time-overview-column"><NrTimeOverview view={timeView} selectedSlot={safeSlot} onSelect={(index) => setSelection((current) => selectTimeSlot(current, index))} />
        <div className="slot-selector"><label>İncelenen slot <b>{safeSlot + 1}</b></label><input type="range" min="0" max={active.slotTrace.length - 1} value={safeSlot} onChange={(e) => setSelection((current) => selectTimeSlot(current, Number(e.target.value)))} /></div></div>
        {selection.detailOpen && <SlotDetailPanel cell={timeView.cells[safeSlot] ?? null} onClose={() => setSelection(closeTimeDetail)} />}</div>
@@ -354,17 +354,17 @@ function M2Dashboard({ cell, results, active, selected, onSelect, elapsedMillise
    ueColors: new Map(active.ueResults.map((ue) => [ue.ueId, ueColor(ue.ueId)])),
  }), [active, cell, ueWidebandSinr])
  return <>
-   <PageTitle eyebrow="M2 · QoS + TRAFİK" title="Paket ve gecikme farkındalıklı scheduling" description={`Poissontrafik, FIFO kuyruklar, 5QI/GBR ve greedy RB paylaşımı · teslim edilen paketlerde gelişten hizmet tamamlanmasınagecikme · worker ${number.format(elapsedMilliseconds)} ms`} seed={active.effectiveTrafficSeed} />
+   <PageTitle eyebrow="M2 · QoS + TRAFİK" title="Paket ve gecikme farkındalıklı scheduling" description={`Poisson trafik, FIFO kuyruklar, 5QI/GBR ve greedy RB paylaşımı · teslim edilen paketlerde gelişten hizmet tamamlanmasına gecikme · worker ${number.format(elapsedMilliseconds)} ms`} seed={active.effectiveTrafficSeed} />
    <div className="algorithm-row m2-algorithm-row">{results.map((item) => <button key={item.scheduler}
 className={`algorithm-card ${selected === item.scheduler ? 'active' : ''}`} onClick={() => onSelect(item.scheduler)}>< div><i style={{ background: m2SchedulerColor(item.scheduler) }} /><span>{item.schedulerLabel}</span></div> <strong>{number.format(item.cellThroughputMbps)} <small>Mbps</small></strong><footer><span>Teslim</span> <b>%{number.format(item.generatedPackets > 0 ? item.deliveredPackets / item.generatedPackets * 100 : 100)}</b> <div className="fairness-meter"><i style={{ width: `${(item.generatedPackets > 0 ? item.deliveredPackets /item.generatedPackets : 1) * 100}%` }} /></div></footer></button>)}</div>
    <div className="kpi-row">
      <Kpi label="Hücre throughput" value={`${number.format(active.cellThroughputMbps)} Mbps`} note= {active.schedulerLabel} accent />
      <Kpi label="Paket teslim oranı" value={`%${number.format(deliveryRatio * 100)}`} note={`${active.deliveredPackets.toLocaleString('tr-TR')} / ${active.generatedPackets.toLocaleString('tr-TR')} paket`} />
-     <Kpi label="Kuyrukta kalan" value={active.queuedPackets.toLocaleString('tr-TR')} note="Simülasyon sonundakipaket" />
+     <Kpi label="Kuyrukta kalan" value={active.queuedPackets.toLocaleString('tr-TR')} note="Simülasyon sonundaki paket" />
      <Kpi label="Jain adaleti" value={active.jainFairness === null ? 'N/A' : number.format(active.jainFairness)} note= {`${active.ueResults.length} UE`} />
    </div>
    <div className="panel-grid m2-grid">
-     <Panel title="Frame · Subframe · Slot · RB paylaşımı" subtitle={`${active.schedulerLabel} · incelenebilir ilk${active.slotTrace.length} slot · yatay kaydırma yok`} className="allocation-panel">
+     <Panel title="Frame · Subframe · Slot · RB paylaşımı" subtitle={`${active.schedulerLabel} · incelenebilir ilk ${active.slotTrace.length} slot · yatay kaydırma yok`} className="allocation-panel">
        <div className={`time-detail-layout${selection.detailOpen ? '' : ' detail-closed'}`}><div className="time-overview-column"><NrTimeOverview view={m2TimeView} selectedSlot={m2TimeView.cells[safeSlot]?.globalSlotIndex ?? null} onSelect={(globalSlotIndex) => { const index = m2TimeView.cells.findIndex((candidate) => candidate.globalSlotIndex === globalSlotIndex); if (index >= 0) setSelection((current) => selectTimeSlot(current, index)) }} />
        <div className="slot-selector"><label>İncelenen slot <b>{safeSlot + 1}</b></label><input type="range" min="0" max={Math.max(0, active.slotTrace.length - 1)} value={safeSlot} onChange={(event) => setSelection((current) => selectTimeSlot(current, Number(event.target.value)))} /></div></div>
        {selection.detailOpen && <SlotDetailPanel cell={m2TimeView.cells[safeSlot] ?? null} onClose={() => setSelection(closeTimeDetail)} />}</div>
@@ -500,7 +500,7 @@ textAnchor="middle" className="matrix-tick">{number.format(maxThroughput * ratio
          return <g key={item.scheduler} className={`matrix-point ${item.scheduler}`} style={{ color: schedulerColor(item.scheduler) }}>
            <line x1={xLow} y1={cy} x2={xHigh} y2={cy} className="error-bar" /><line x1={xLow} y1={cy - 3} x2={xLow} y2={cy + 3} className="error-bar" /><line x1={xHigh} y1={cy - 3} x2={xHigh} y2={cy + 3} className="error-bar" />
            <line x1={cx} y1={yLow} x2={cx} y2={yHigh} className="error-bar" /><line x1={cx - 3} y1={yLow} x2={cx + 3} y2={yLow} className="error-bar" /><line x1={cx - 3} y1={yHigh} x2={cx + 3} y2={yHigh} className="error-bar" />
-           <circle cx={cx} cy={cy} r="5.5"><title>{`${item.schedulerLabel}: ${number.format(item.throughputMbps.mean)}Mbps, Jain ${number.format(item.jainFairness.mean)}`}</title></circle>
+           <circle cx={cx} cy={cy} r="5.5"><title>{`${item.schedulerLabel}: ${number.format(item.throughputMbps.mean)} Mbps, Jain ${number.format(item.jainFairness.mean)}`}</title></circle>
          </g>
        })}
        <text x={(plot.left + plot.right) / 2} y={cardY + cardHeight - 8} textAnchor="middle" className="matrix-axis-title"> Throughput (Mbps)</text>
@@ -518,7 +518,7 @@ function ResourceGrid({ count }: { count: number }) {
  </div>
 }
 function SinrRateChart({ ues }: { ues: UeResult[] }) {
- const data = [{ type:'scatter', mode:'markers', name:'UE', x:ues.map((ue) => ue.sinrDb), y:ues.map((ue) => ue.achievableRateMbps), marker:{size:11,color:ues.map((ue) => ueColor(ue.id)),line:{color:'#fff',width:2}}, customdata:ues.map((ue) => [ue.id,ue.cqi,ue.mcs]), hovertemplate:'<b>UE %{customdata[0]}</b><br>SINR: %{x:.2f}dB<br>Achievable rate: %{y:.3f} Mbps<br>CQI: %{customdata[1]}<br>MCS: %{customdata[2]}<extra></extra>' }]
+ const data = [{ type:'scatter', mode:'markers', name:'UE', x:ues.map((ue) => ue.sinrDb), y:ues.map((ue) => ue.achievableRateMbps), marker:{size:11,color:ues.map((ue) => ueColor(ue.id)),line:{color:'#fff',width:2}}, customdata:ues.map((ue) => [ue.id,ue.cqi,ue.mcs]), hovertemplate:'<b>UE %{customdata[0]}</b><br>SINR: %{x:.2f} dB<br>Achievable rate: %{y:.3f} Mbps<br>CQI: %{customdata[1]}<br>MCS: %{customdata[2]}<extra></extra>' }]
  return <PlotlyChart id="m0-sinr-rate-chart" data={data} layout={{xaxis:{title:'SINR (dB)',gridcolor:'#e5e7eb'},yaxis: {title:'Achievable rate (Mbps)',rangemode:'tozero',gridcolor:'#e5e7eb'},showlegend:false,margin:{t:40,r:30,b:70,l:80}}} ariaLabel="Etkileşimli SINR ve ulaşılabilir hız saçılım grafiği" minHeight={440} />
 }
 export function LegacySinrRateChart({ ues }: { ues: UeResult[] }) {
@@ -530,7 +530,7 @@ export function LegacySinrRateChart({ ues }: { ues: UeResult[] }) {
  return <svg id="m0-sinr-rate-chart" className="chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="SINR ve ulaşılabilir hız saçılım grafiği">
    {[0, .25, .5, .75, 1].map((ratio) => <g key={ratio}><line x1={pad} y1={y(maxY * ratio)} x2={width - 16} y2={y(maxY * ratio)} className="grid-line" /><text x={pad - 7} y={y(maxY * ratio) + 3} textAnchor="end">{number.format(maxY * ratio)}</text></g>)}
    <line x1={pad} y1={10} x2={pad} y2={height - pad} className="axis" /><line x1={pad} y1={height - pad} x2={width -16} y2={height - pad} className="axis" />
-   {ues.map((ue) => <g key={ue.id}><circle cx={x(ue.sinrDb)} cy={y(ue.achievableRateMbps)} r="5" style={{ fill: ueColor(ue.id) }}><title>{`UE ${ue.id}: ${number.format(ue.sinrDb)} dB, ${number.format(ue.achievableRateMbps)}Mbps`}</title></circle></g>)}
+   {ues.map((ue) => <g key={ue.id}><circle cx={x(ue.sinrDb)} cy={y(ue.achievableRateMbps)} r="5" style={{ fill: ueColor(ue.id) }}><title>{`UE ${ue.id}: ${number.format(ue.sinrDb)} dB, ${number.format(ue.achievableRateMbps)} Mbps`}</title></circle></g>)}
    <text x={width / 2} y={height - 7} textAnchor="middle" className="axis-title">SINR (dB)</text><text x="12" y= {height / 2} textAnchor="middle" className="axis-title" transform={`rotate(-90 12 ${height / 2})`}>Hız (Mbps)</text>
  </svg>
 }

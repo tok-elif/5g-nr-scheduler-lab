@@ -16,7 +16,7 @@ export function sampleNormal(random: RandomSource, mean: number, stdDev: number)
  return mean + stdDev * standardNormal
 }
 export function samplePoisson(random: RandomSource, lambda: number): number {
- if (!Number.isFinite(lambda) || lambda < 0) throw new Error('Poisson lambda sonlu ve negatif olmayan bir sayıolmalıdır.')
+ if (!Number.isFinite(lambda) || lambda < 0) throw new Error('Poisson lambda sonlu ve negatif olmayan bir sayı olmalıdır.')
  if (lambda === 0) return 0
  // Slot başına trafik yoğunluğu varsayılan senaryolarda 1'in oldukça
  // altındadır. Büyük lambda değerlerini de güvenli tutmak için toplamsal

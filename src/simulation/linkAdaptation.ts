@@ -91,8 +91,8 @@ export function calculateFullBandRateMbps(
  overheadFraction: number,
 ): number {
  validateCellConfig(cell)
- if (!Number.isFinite(spectralEfficiency) || spectralEfficiency < 0) throw new Error('Spektral verimlilik sonlu ve negatifolmayan bir sayı olmalıdır.')
- if (!Number.isInteger(layers) || layers < 1 || layers > 8) throw new Error('Katman sayısı 1–8 arasında bir tam sayıolmalıdır.')
+ if (!Number.isFinite(spectralEfficiency) || spectralEfficiency < 0) throw new Error('Spektral verimlilik sonlu ve negatif olmayan bir sayı olmalıdır.')
+ if (!Number.isInteger(layers) || layers < 1 || layers > 8) throw new Error('Katman sayısı 1–8 arasında bir tam sayı olmalıdır.')
  if (!Number.isFinite(overheadFraction) || overheadFraction < 0 || overheadFraction >= 1) {
    throw new Error('Overhead oranı 0 dahil, 1 hariç aralığında olmalıdır.')
  }
